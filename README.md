@@ -92,4 +92,16 @@ Untuk kasus list subscriber, DashMap tetap lebih baik dibanding singleton biasa 
 
 #### Reflection Publisher-2
 
+1. In the Model-View Controller (MVC) compound pattern, there is no “Service” and “Repository”. Model in MVC covers both data storage and business logic. Explain based on your understanding of design principles, why we need to separate “Service” and “Repository” from a Model?
+
+Memisahkan Service dan Repository dari Model dilakukan untuk menerapkan prinsip Separation of Concerns (SoC) dan memudahkan pengelolaan kode. Model hanya fokus menyimpan struktur data, Repository khusus menangani penyimpanan/akses data (seperti database), sedangkan Service mengatur logika bisnis yang kompleks. Hal ini dilakukan agar membuat kode lebih modular, mudah di-test, dan fleksibel jika ada perubahan infrastruktur (misalnya kayak ganti database). Selain itu, Logika bisnis di Service juga bisa diubah tanpa mempengaruhi cara data disimpan. Dengan pembagian tanggung jawab yang jelas, kode jadi lebih bersih dan scalable.
+
+2. What happens if we only use the Model? Explain your imagination on how the interactions between each model (Program, Subscriber, Notification) affect the code complexity for each model?
+
+Jika hanya menggunakan Model tanpa pemisahan Service dan Repository, kode bakal menjadi kacau karena setiap Model harus menangani terlalu banyak tanggung jawab sekaligus seperti mulai dari penyimpanan data, logika bisnis, hingga komunikasi antar Model. Dimana ada kemungkinan Product perlu mengurus subscriber, Subscriber harus paham cara membuat Notification, dan Notification perlu tahu cara menyimpan diri ke database, menciptakan dependensi berantai yang susah ditrack. Akibatnya, perubahan kecil seperti mengubah cara penyimpanan data bisa merusak seluruh alur notifikasi, testing menjadi susah karena semua logika menyatu, dan kode berkembang menjadi sangat kompleks dan rumit dipahami seiring penambahan fitur. Oleh karena itu, menurut saya pemisahan layer Service dan Repository justru diperlukan dalam membantu menyederhanakan kompleksitas ini dengan memberi batasan tanggung jawab yang jelas untuk setiap komponennya
+
+3. Have you explored more about Postman? Tell us how this tool helps you to test your current work. You might want to also list which features in Postman you are interested in or feel like it is helpful to help your Group Project or any of your future software engineering projects.
+
+Postman cukup membantu saya dalam menguji API BambangShop karena memungkinkan pengiriman berbagai jenis request (GET/POST/DELETE) dengan mudah, termasuk mengatur header dan body JSON. Lalu, ada fitur collection yang tersusun rapi sehingga mempermudah testing berulang untuk endpoint seperti subscribe, create product, dan receive notification. Untuk fitur lain yang dapat membantu proyek kelompok, saya belum eksplore lebih lanjut. Namun, di Postman terdapat fitur mock server dan dokumentasi otomatis yang mungkin akan berguna untuk proyek tim yang lebih kompleks.
+
 #### Reflection Publisher-3
