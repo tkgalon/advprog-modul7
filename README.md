@@ -105,3 +105,16 @@ Jika hanya menggunakan Model tanpa pemisahan Service dan Repository, kode bakal 
 Postman cukup membantu saya dalam menguji API BambangShop karena memungkinkan pengiriman berbagai jenis request (GET/POST/DELETE) dengan mudah, termasuk mengatur header dan body JSON. Lalu, ada fitur collection yang tersusun rapi sehingga mempermudah testing berulang untuk endpoint seperti subscribe, create product, dan receive notification. Untuk fitur lain yang dapat membantu proyek kelompok, saya belum eksplore lebih lanjut. Namun, di Postman terdapat fitur mock server dan dokumentasi otomatis yang mungkin akan berguna untuk proyek tim yang lebih kompleks.
 
 #### Reflection Publisher-3
+
+1. Observer Pattern has two variations: Push model (publisher pushes data to subscribers) and Pull model (subscribers pull data from publisher). In this tutorial case, which variation of Observer Pattern that we use?
+
+Pada tutorial ini kita menggunakan model Push, di mana publisher secara aktif mengirimkan data notifikasi ke subscriber melalui HTTP POST ketika ada perubahan produk. Ini terlihat dari method update() di Subscriber yang dipanggil langsung oleh publisher dengan membawa payload lengkap (product title, type, dll). Model Push ini dipilih karena lebih efisien untuk kasus yang masih sederhana dimana data yang dikirim sama dan ukurannya kecil.
+
+
+2. What are the advantages and disadvantages of using the other variation of Observer Pattern for this tutorial case? (example: if you answer Q1 with Push, then imagine if we used Pull)
+
+Jika kita pakai model Pull, mungkin bisa lebih fleksibel karena subscriber hanya mengambil data ketika siap memproses, mengurangi risiko overload saat banyak notifikasi sekaligus. Namun, implementasinya lebih kompleks karena perlu sistem timestamp untuk melacak update terbaru dan berpotensi menyebabkan "stale data" jika interval polling terlalu jarang. Selain itu, beban server tetap tinggi jika banyak subscriber yang polling bersamaan, meski tidak sebeban Push ketika ada event besar.
+
+3. Explain what will happen to the program if we decide to not use multi-threading in the notification process.
+
+Tanpa multi-threading, proses notifikasi akan berjalan secara blocking/serial. Artinya publisher harus menunggu semua subscriber merespons sebelum bisa mengembalikan response ke client. Lalu, latency meningkat drastis terutama jika subscriber lambat atau offline. Selain itu, throughput sistem turun karena request ngantri. Ini jelas tidak ideal untuk aplikasi real-world yang butuh respons cepat.
